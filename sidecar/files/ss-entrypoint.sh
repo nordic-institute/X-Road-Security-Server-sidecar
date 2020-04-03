@@ -24,11 +24,13 @@ if [ "$INSTALLED_VERSION" == "$PACKAGED_VERSION" ]; then
         pg_ctlcluster 10 main stop
         nginx -s stop
         sleep 1
-        echo "$PACKAGED_VERSION" >/etc/xroad/version
+        echo "$PACKAGED_VERSION" >/etc/xroad/VERSION
     fi
 else
     echo "WARN: Installed version ($INSTALLED_VERSION) does not match packaged version ($PACKAGED_VERSION)" >&2
 fi
+
+
 
 # Configure admin user with user-supplied username and password
 user_exists=$(id -u ${XROAD_ADMIN_USER} > /dev/null 2>&1)
