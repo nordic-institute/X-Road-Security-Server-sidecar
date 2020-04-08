@@ -30,8 +30,6 @@ else
     echo "WARN: Installed version ($INSTALLED_VERSION) does not match packaged version ($PACKAGED_VERSION)" >&2
 fi
 
-
-
 # Configure admin user with user-supplied username and password
 user_exists=$(id -u ${XROAD_ADMIN_USER} > /dev/null 2>&1)
 if [ $? != 0 ]

@@ -24,7 +24,6 @@ httpport=$(($2 + 1))
 
 # Create xroad-network to provide container-to-container communication
 docker network inspect xroad-network >/dev/null 2>&1 || docker network create -d bridge xroad-network
-
 echo "=====> Build sidecar image"
 docker build -f sidecar/Dockerfile -t xroad-sidecar-security-server-image sidecar/ 
 echo "=====> Run container"
