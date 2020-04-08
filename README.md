@@ -40,4 +40,4 @@ The script setup_security_server_sidecar.sh will:
 - Update X-Road configuration on startup if the installed version on image has been updated.
 - Generate serverconf database and properties file with default username (serverconf) and random password.
 - Generate internal and admin UI TLS keys and certificates.
-- Add volume support for etc/xroad config
+- Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
