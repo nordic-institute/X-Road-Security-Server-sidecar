@@ -88,6 +88,10 @@ The script setup_security_server_sidecar.sh will:
   - Recreates serverconf database and properties file with serverconf username and random password.
   - Starts security server sidecar services.
 
+### 1.6 Finish settings
+  To install the  Security Server sidecar in a local development environment with finish settings, modify the image build in the setup_security_server_sidecar.sh changing the path "sidecar/Dockerfile" to "sidecar/fi/Dockerfile"
+
+
 ## 2 Security Server Sidecar Initial Configuration
 
 ### 2.1 Reference Data
