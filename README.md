@@ -25,9 +25,10 @@ The Security Server sidecar installation requires an existing installation of Do
 
 Minimum recommended docker engine configuration to run the security server sidecar container:
 
-- CPUs: 4
-- Memory: 8 G
-- Swap: 2 GiB
+- CPUs: 2
+- Memory: 8 GiB
+- Swap: 1 GiB
+- Disk space: 2 GiB
 
 ### 1.4 Reference Data
 
@@ -134,8 +135,5 @@ Then, if the configuration is successfully downloaded, the system asks for the f
 - The current security server sidecar implementation is a Proof of Concept and it is meant for testing and development purposes.
 - The current security server sidecar implementation does not support message logging, operational monitoring nor environmental monitoring functionality, which is recommended for a service provider's security server role. This functionality will be included in future releases.
 - The current security server sidecar implementation does not support external database. This functionality will be included in future releases.
-- The current security server sidecar built-in configuration restore implementation fails since it does not support supervisorctl. This limitation will be fixed in future releases.
-- The security server configuration files (located in `/etc/xroad/`) are currently stored inside the sidecar container. Functionality to provide volume support will be added in future releases.
 - The security server sidecar creates and manages its own internal TLS keys and certificates and does TLS termination by itself. This configuration might not be fully compatible with the application load balancer configuration in a cloud environment.
 - The xroad services are run inside the container using supervisord as root, although the processes it starts are not. To avoid potential security issues, it is possible to set up Docker so that it uses Linux user namespaces, in which case root inside the container is not root (user id 0) on the host. For more information, see <https://docs.docker.com/engine/security/userns-remap/>.
-
