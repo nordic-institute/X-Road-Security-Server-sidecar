@@ -90,7 +90,7 @@ The script setup_security_server_sidecar.sh will:
   - Starts security server sidecar services.
   - Replace 'initctl' for 'supervisorctl' in 'xroad_restore.sh' for start and stop the services.
   - Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
-  
+
 ## 1.6 Installation with remote server configuration database
 
 It is possible to configure the security server sidecar to use a remote database, instead of the default locally installed one. To do that, you need to provide the remote database server hostname and port number as arguments when running the setup_security_server_sidecar.sh script in the order described below. Before running the script, you must also set the environment variable XROAD_DB_PASSWORD with the remote database administrator master password:
@@ -124,6 +124,24 @@ The following configuration is needed on the remote database server to allow ext
   host    all             all             0.0.0.0/0            md5
   [...]
   ```
+
+## 1.7 Volumme suport
+
+It is possible to configure security server sidecar to use volume support. This will allow us to  create sidecar-config and sidecar-config-db directory on the host and mount it into the /etc/xroad and /var/lib/postgresql/10/main  config  directories on the container.
+For adding volume support we have to modify the docdker run sentence inside the setup_security_server_sidecar.sh script and add the following commands after the run: 
+-v $(sidecar-config-volume-name):/etc/xroad -v $(sidecar-config-db-volume-name):/var/lib/postgresql/10/main
+
+For example:
+
+  ```bash
+  [...]
+    docker run <b>-v sidecar-config:/etc/xroad -v sidecar-config-db:/var/lib/postgresql/10/main</b> --detach -p $2:4000 -p $httpport:80 -p 5588:5588 --network xroad-network -e XROAD_TOKEN_PIN=$3 -e XROAD_ADMIN_USER=$4 -e XROAD_ADMIN_PASSWORD=$5 -e XROAD_DB_HOST=$postgresqlhost -e XROAD_DB_PORT=$postgresqlport -e XROAD_DB_PWD=$XROAD_DB_PASSWORD --name $1 xroad-sidecar-security-server-image
+
+  [...]
+  ```
+
+
+docker run -v sidecar-config:/etc/xroad -v sidecar-config-db:/var/lib/postgresql/10/main --detach -p $2:4000 -p $httpport:80 
 
 ## 2 Security Server Sidecar Initial Configuration
 
