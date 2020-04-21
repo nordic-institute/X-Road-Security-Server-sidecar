@@ -43,7 +43,7 @@ Minimum recommended docker engine configuration to run the security server sidec
  1.5    | TCP 5500                                  | Ports for inbound connections (from the external network to the security server)<br> Message exchange between security servers
  &nbsp; | TCP 5577                                  | Ports for inbound connections (from the external network to the security server)<br> Querying of OCSP responses between security servers
  1.6    | TCP 5500                                  | Ports for outbound connections (from the security server to the external network)<br> Message exchange between security servers
- &nbsp; | TCP 5577                                  | Ports for outbound connections (from the security server to the exte>>>>>>> masterrnal network)<br> Querying of OCSP responses between security servers
+ &nbsp; | TCP 5577                                  | Ports for outbound connections (from the security server to the external network)<br> Querying of OCSP responses between security servers
  &nbsp; | TCP 80 (1)                                | Ports for outbound connections (from the security server to the external network)<br> Downloading global configuration
  &nbsp; | TCP 80 (1),443                            | Ports for outbound connections (from the security server to the external network)<br> Most common OCSP service
  1.7    | TCP 80 (1)                                | Ports for information system access points (in the local network)<br> Connections from information systems
