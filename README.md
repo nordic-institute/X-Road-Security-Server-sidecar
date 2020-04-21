@@ -95,7 +95,7 @@ The script setup_security_server_sidecar.sh will:
  **Ref** | **Value**                                                | **Explanation**
  ---- | ----------------------------------------------------------- | -------------------------------------------------------
  2.1  | &lt;global configuration anchor file&gt; or &lt;URL&gt;     | Global configuration anchor file or provider URL (1) (2)
- 2.2  | &lt;security server owner's member class&gt;<br>E.g.<br> COM- Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container. - Commercial<br> ORG - Organisation            | Member class of the security server owner for the sidecar (2)
+ 2.2  | &lt;security server owner's member class&gt;<br>E.g.<br> COM - Commercial<br> ORG - Organisation            | Member class of the security server owner for the sidecar (2)
  2.3  | &lt;security server owner's member code&gt;                 | Member code of the security server owner for the sidecar (2) (3)
  2.4  | &lt;security server code&gt;                                | Security server code for the sidecar (4)
  2.5  | &lt;PIN for software token&gt;                              | Software token PIN code (same as ref. data 1.3)
