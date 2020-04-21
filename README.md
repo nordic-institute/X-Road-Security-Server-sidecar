@@ -128,15 +128,11 @@ The following configuration is needed on the remote database server to allow ext
 ## 1.7 Volumme suport
 
 It is possible to configure security server sidecar to use volume support. This will allow us to  create sidecar-config and sidecar-config-db directory on the host and mount it into the /etc/xroad and /var/lib/postgresql/10/main  config  directories on the container.
-For adding volume support we have to modify the docdker run sentence inside the setup_security_server_sidecar.sh script and add the following commands after the run:
-<br> 
--v <sidecar-config-volume-name>:/etc/xroad -v <sidecar-config-db-volume-name>:/var/lib/postgresql/10/main
-
-For example:
+For adding volume support we have to modify the docdker run sentence inside the setup_security_server_sidecar.sh script and add the volume support after the run:
 
   ```bash
   [...]
-    docker run -v sidecar-config:/etc/xroad -v sidecar-config-db:/var/lib/postgresql/10/main --detach -p $2:4000 -p $httpport:80 -p 5588:5588 --network xroad-network -e XROAD_TOKEN_PIN=$3 -e XROAD_ADMIN_USER=$4 -e XROAD_ADMIN_PASSWORD=$5 -e XROAD_DB_HOST=$postgresqlhost -e XROAD_DB_PORT=$postgresqlport -e XROAD_DB_PWD=$XROAD_DB_PASSWORD --name $1 xroad-sidecar-security-server-image
+    docker run **-v sidecar-config-volume-name>:/etc/xroad -v <sidecar-config-db-volume-name>/var/lib/postgresql/10/main** --detach -p $2:4000 -p $httpport:80 -p 5588:5588 --network xroad-network -e XROAD_TOKEN_PIN=$3 -e XROAD_ADMIN_USER=$4 -e XROAD_ADMIN_PASSWORD=$5 -e XROAD_DB_HOST=$postgresqlhost -e XROAD_DB_PORT=$postgresqlport -e XROAD_DB_PWD=$XROAD_DB_PASSWORD --name $1 xroad-sidecar-security-server-image
   [...]
   ```
 
