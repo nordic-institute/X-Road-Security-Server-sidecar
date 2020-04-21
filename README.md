@@ -26,7 +26,7 @@ The Security Server sidecar installation requires an existing installation of Do
 Minimum recommended docker engine configuration to run the security server sidecar container:
 
 - CPUs: 2
-- Memory: 8 GiB
+- Memory: 2 GiB
 - Swap: 1 GiB
 - Disk space: 2 GiB
 
@@ -63,7 +63,7 @@ Note (2): The TCP port 4000 in the container is mapped to the user-defined TCP p
 To install the Security Server sidecar in a local development environment, run the script setup_security_server_sidecar.sh providing the parameters in the order shown (reference data 1.1, 1.2, 1.3, 1.4):
 
   ```bash
-  ./setup_security_server_sidecar.sh <name of the sidecar container> <admin UI port> <software token PIN code> <admin username> <admin password>
+  ./setup_security_server_sidecar.sh <name of the sidecar container> <admin UI port> <software token PIN code> <admin username> <admin password> (<remote database server hostname> <remote database server port>)
   ```
 
 The script setup_security_server_sidecar.sh will:
@@ -78,7 +78,6 @@ The script setup_security_server_sidecar.sh will:
   - Backs up the read-only xroad packages' configuration to allow security server sidecar configuration updates.
   - Copies the xroad security server sidecar custom configuration files.
   - Exposes the container ports 80 (HTTP), 443 (HTTPS), 4000 (admin UI), 5500 (proxy), 5577 (proxy OCSP) and 5588 (proxy health check).
-  - Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
 - Start a new security server sidecar container from the xroad-sidecar-security-server-image and execute the initial configuration script, which will perform the following configuration steps:
   - Maps ports 4000 (admin UI) and 80 (HTTP) to user-defined ones (reference data 1.2).
   - Maps port 5588 (proxy health check) to the same host port.
@@ -87,8 +86,45 @@ The script setup_security_server_sidecar.sh will:
   - Configures admin credentials with user-supplied username and password (reference data 1.4).
   - Generates new internal and admin UI TLS keys and self-signed certificates to establish a secure connection with the client information system.
   - Recreates serverconf database and properties file with serverconf username and random password.
+  - Optionally configures the security server sidecar to use a remote database server.
   - Starts security server sidecar services.
-- Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
+  - Replace 'initctl' for 'supervisorctl' in 'xroad_restore.sh' for start and stop the services. 
+  - Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
+  
+## 1.6 Installation with remote server configuration database
+
+It is possible to configure the security server sidecar to use a remote database, instead of the default locally installed one. To do that, you need to provide the remote database server hostname and port number as arguments when running the setup_security_server_sidecar.sh script in the order described below. Before running the script, you must also set the environment variable XROAD_DB_PASSWORD with the remote database administrator master password:
+
+  ```bash
+  export XROAD_DB_PASSWORD=<remote database administrator master password>
+  ./setup_security_server_sidecar.sh <name of the sidecar container> <admin UI port> <software token PIN code> <admin username> <admin password> <remote database server hostname> <remote database server port>
+  ```
+
+The following configuration is needed on the remote database server to allow external access to the remote PostgreSQL database from the security server sidecar:
+
+- Edit the PostgreSQL configuration file in `/etc/postgresql/10/main/postgresql.conf` to enable listening on external addresses and to verify the port. NOTE: If you change these settings, the postgresql service must be restarted.
+
+  ```bash
+  [...]
+    # - Connection Settings -
+
+    listen_addresses = '*'  # what IP address(es) to listen on;
+                            # comma-separated list of addresses;
+                            # defaults to 'localhost'; use '*' for all
+                            # (change requires restart)
+    port = 5432             # (change requires restart)
+  [...]
+  ```
+
+- Edit the PostgreSQL client authentication configuration file in `pg_hba.conf` to enable connections from outside localhost. Replace the IP `127.0.0.1/32` with `0.0.0.0/0`.
+
+  ```bash
+  [...]
+  # IPv4 local connections:
+  host    all             all             0.0.0.0/0            md5
+  [...]
+  ```
+
 ## 2 Security Server Sidecar Initial Configuration
 
 ### 2.1 Reference Data
@@ -134,6 +170,5 @@ Then, if the configuration is successfully downloaded, the system asks for the f
 
 - The current security server sidecar implementation is a Proof of Concept and it is meant for testing and development purposes.
 - The current security server sidecar implementation does not support message logging, operational monitoring nor environmental monitoring functionality, which is recommended for a service provider's security server role. This functionality will be included in future releases.
-- The current security server sidecar implementation does not support external database. This functionality will be included in future releases.
 - The security server sidecar creates and manages its own internal TLS keys and certificates and does TLS termination by itself. This configuration might not be fully compatible with the application load balancer configuration in a cloud environment.
 - The xroad services are run inside the container using supervisord as root, although the processes it starts are not. To avoid potential security issues, it is possible to set up Docker so that it uses Linux user namespaces, in which case root inside the container is not root (user id 0) on the host. For more information, see <https://docs.docker.com/engine/security/userns-remap/>.
