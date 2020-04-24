@@ -5,5 +5,4 @@ ADD https://raw.githubusercontent.com/nordic-institute/X-Road/master/src/package
 
 RUN chown xroad:xroad /etc/xroad/conf.d/override-securityserver-fi.ini \
 && chmod 660 /etc/xroad/conf.d/override-securityserver-fi.ini \
-&& cp /etc/xroad/conf.d/override-securityserver-fi.ini /root/etc/xroad/conf.d/
-
+&& cp -p /etc/xroad/conf.d/override-securityserver-fi.ini /root/etc/xroad/conf.d/
