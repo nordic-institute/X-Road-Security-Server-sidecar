@@ -143,6 +143,10 @@ For example:
 ### 1.8 Finnish settings
   To install the Security Server sidecar in a local development environment with Finnish settings, modify the image build in the setup_security_server_sidecar.sh changing the path "sidecar/Dockerfile" to "sidecar/fi/Dockerfile"
 
+### 1.9 Optimize Sidecar Container
+For optimize the container purpose we can enable the docker BuildKit, this will enable higher performance in docker builds and caching possibility to decrease build times and increase productivity. For enabling the Buildkit edit or add the `/etc/docker/daemon.json `file adding:
+`{ "features": { "buildkit": true } }`
+
 ## 2 Security Server Sidecar Initial Configuration
 
 ### 2.1 Reference Data
