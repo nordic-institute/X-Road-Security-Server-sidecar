@@ -90,7 +90,6 @@ The script setup_security_server_sidecar.sh will:
   - Starts security server sidecar services.
   - Replace 'initctl' for 'supervisorctl' in 'xroad_restore.sh' for start and stop the services.
   - Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
-  - Run the --squash parameter for reducing the size of the image (We need to have the experimental mode in enabled in docker for building the image)
 
 ## 1.6 Installation with remote server configuration database
 
