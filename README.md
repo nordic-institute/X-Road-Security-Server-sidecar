@@ -90,6 +90,7 @@ The script setup_security_server_sidecar.sh will:
   - Starts security server sidecar services.
   - Replace 'initctl' for 'supervisorctl' in 'xroad_restore.sh' for start and stop the services.
   - Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
+  - Building with Docker BuildKit can slightly reduce the size of the resulting container image. See <https://docs.docker.com/develop/develop-images/build_enhancements/> for more information.
 
 ## 1.6 Installation with remote server configuration database
 
@@ -150,13 +151,6 @@ For example:
 ### 1.9 Security Server Sidecar Provider
   To install the Security Server Sidecar provider, modify the image build in the setup_security_server_sidecar.sh changing the path "sidecar/Dockerfile" to "sidecar/provider/Dockerfile". The Sidecar provider is based on the Sidecar image and adds support for message loggin, both for internal or remote database (Check 1.6 step).
   To install the Security Server Sidecar provider with finish settings, modify the image build in the setup_security_server_sidecar.sh changing the path "sidecar/Dockerfile" to "sidecar/provider/fi/Dockerfile"
-  
-### 1.10 Optimize Sidecar Container
-
-For optimize the container purpose we can enable the docker BuildKit, this will result in small a reduction in resulting container image size. For enabling the Buildkit edit or add the `/etc/docker/daemon.json `file adding:
-`{ "features": { "buildkit": true } }`
-
-For more information check <https://docs.docker.com/develop/develop-images/build_enhancements/>
 
 ## 2 Security Server Sidecar Initial Configuration
 
