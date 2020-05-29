@@ -21,6 +21,9 @@ The Security Server sidecar can be installed both on physical and virtualized ha
 
 The Security Server sidecar installation requires an existing installation of Docker.
 
+Building with Docker BuildKit can slightly reduce the size of the resulting container image.
+See <https://docs.docker.com/develop/develop-images/build_enhancements/> for more information.
+
 ### 1.3 Requirements for the Security Server Sidecar
 
 Minimum recommended docker engine configuration to run the security server sidecar container:
@@ -90,7 +93,6 @@ The script setup_security_server_sidecar.sh will:
   - Starts security server sidecar services.
   - Replace 'initctl' for 'supervisorctl' in 'xroad_restore.sh' for start and stop the services.
   - Create sidecar-config directory on the host and mount it into the /etc/xroad config directory on the container.
-  - Building with Docker BuildKit can slightly reduce the size of the resulting container image. See <https://docs.docker.com/develop/develop-images/build_enhancements/> for more information.
 
 ## 1.6 Installation with remote server configuration database
 
