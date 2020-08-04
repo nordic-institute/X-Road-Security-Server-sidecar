@@ -27,17 +27,21 @@ RUN echo "deb $REPO $DIST $COMPONENT" >/etc/apt/sources.list.d/xroad.list \
 
 RUN pg_ctlcluster 10 main start \
 && apt-get -qq update \
-&& apt-get -qq install xroad-proxy xroad-addon-metaservices xroad-addon-wsdlvalidator xroad-autologin xroad-addon-messagelog \
+&& apt-get -qq install xroad-proxy xroad-addon-metaservices xroad-addon-wsdlvalidator xroad-autologin xroad-addon-messagelog xroad-addon-opmonitoring \
 && su - postgres -c "psql postgres -tAc \"DROP DATABASE serverconf;\"" \
 && su - postgres -c "psql postgres -tAc \"DROP USER serverconf;\"" \
 && su - postgres -c "psql postgres -tAc \"DROP DATABASE messagelog;\"" \
 && su - postgres -c "psql postgres -tAc \"DROP USER messagelog;\"" \
+&& su - postgres -c "psql postgres -tAc 'DROP DATABASE \"op-monitor\";'" \
+&& su - postgres -c "psql postgres -tAc \"DROP USER opmonitor;\"" \
+&& su - postgres -c "psql postgres -tAc \"DROP USER opmonitor_admin; \"" \
 && apt-get -qq clean \
 && pg_ctlcluster 10 main stop \
 && nginx -s stop \
 && userdel -r xrd \
 && rm -f /var/run/nginx.pid \
 && rm -f /etc/xroad/db.properties \
+&& rm -f /etc/xroad.properties \
 && rm -f $CERTS_PATH/internal.crt $CERTS_PATH/internal.key $CERTS_PATH/nginx.crt $CERTS_PATH/nginx.key \
 && sed -i 's/proxy_set_header Host $host:$server_port;/proxy_set_header Host $http_host;/' /etc/xroad/nginx/default-xroad.conf
 
@@ -56,13 +60,16 @@ COPY files/ss-entrypoint.sh /root/entrypoint.sh
 COPY --chown=root:root files/ss-xroad.conf /etc/supervisor/conf.d/xroad.conf
 COPY --chown=xroad:xroad files/local.conf /etc/xroad/services/local.conf
 COPY --chown=xroad:xroad files/*logback* /etc/xroad/conf.d/
+COPY --chown=xroad:xroad files/local.conf /tmp/local.conf
+COPY --chown=xroad:xroad files/*logback* /tmp/
 COPY --chown=xroad:xroad files/custom-fetch-pin.sh /usr/share/xroad/autologin/
 
 RUN sed -i 's/initctl/supervisorctl/g' /usr/share/xroad/scripts/_restore_xroad.sh
 
-RUN mv /usr/share/xroad/jlib/addon/proxy/messagelog.conf /usr/share/xroad/jlib/addon/proxy/messagelog.conf.disabled
-RUN mkdir /tmp/logs && cp -r -p /var/log/* /tmp/logs/
+RUN mv /usr/share/xroad/jlib/addon/proxy/messagelog.conf /usr/share/xroad/jlib/addon/proxy/messagelog.conf.disabled \
+&& mv /usr/share/xroad/jlib/addon/proxy/opmonitoring.conf /usr/share/xroad/jlib/addon/proxy/opmonitoring.conf.disabled
 
 CMD ["/root/entrypoint.sh"]
+
 
 EXPOSE 80 443 4000 5500 5577 5588
