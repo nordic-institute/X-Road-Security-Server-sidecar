@@ -61,6 +61,7 @@ COPY --chown=xroad:xroad files/custom-fetch-pin.sh /usr/share/xroad/autologin/
 RUN sed -i 's/initctl/supervisorctl/g' /usr/share/xroad/scripts/_restore_xroad.sh
 
 RUN mv /usr/share/xroad/jlib/addon/proxy/messagelog.conf /usr/share/xroad/jlib/addon/proxy/messagelog.conf.disabled
+RUN mkdir /tmp/logs && cp -r -p /var/log/* /tmp/logs/
 
 CMD ["/root/entrypoint.sh"]
 

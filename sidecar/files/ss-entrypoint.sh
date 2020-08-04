@@ -9,6 +9,23 @@ INSTALLED_VERSION=$(dpkg-query --showformat='${Version}' --show xroad-proxy)
 PACKAGED_VERSION="$(cat /root/VERSION)"
 
 # Update X-Road configuration on startup, if necessary
+
+if [ -z "$(ls -A /etc/xroad/conf.d)" ]; then
+    cp -a /root/VERSION /etc/xroad/VERSION
+    cp -a /root/etc/xroad/* /etc/xroad/
+    cp -a /tmp/local.conf /etc/xroad/services/local.conf
+    chown xroad:xroad /etc/xroad/services/local.conf
+    cp -a /tmp/*logback* /etc/xroad/conf.d/
+    chown xroad:xroad /etc/xroad/conf.d/
+    crudini --set /etc/xroad/conf.d/local.ini proxy health-check-interface 0.0.0.0
+    crudini --set /etc/xroad/conf.d/local.ini proxy health-check-port 5588
+fi
+
+if [ -z "$(ls -A /var/log/)" ]; then
+   cp -a /tmp/logs/* /var/log/
+   rm -r -f /tmp/logs
+fi
+
 if [ "$INSTALLED_VERSION" == "$PACKAGED_VERSION" ]; then
     if [ -f /etc/xroad/VERSION ]; then
         CONFIG_VERSION="$(cat /etc/xroad/VERSION)"
@@ -86,6 +103,12 @@ then
         pg_ctlcluster 10 main stop
         nginx -s stop
     fi
+fi
+
+
+if [ ! -f ${XROAD_LOG_LEVEL} ];
+    then
+    echo "XROAD_LOG_LEVEL=${XROAD_LOG_LEVEL}" > /etc/xroad/conf.d/variables-logback.properties 
 fi
 
 # Start services
