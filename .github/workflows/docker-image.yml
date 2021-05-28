@@ -19,5 +19,8 @@ jobs:
     - name: Build the Docker image test 1
       run: |
         ls -l
+        pwd
+        docker build --help
+        docker version
         docker build -f sidecar/slim/${{ env.INSTANCE_COUNTRY }}/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}"
         docker images
