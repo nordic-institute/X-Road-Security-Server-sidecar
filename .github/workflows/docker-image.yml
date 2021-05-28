@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ github.token }}
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+
 jobs:
 
   build_sidecars:
@@ -20,14 +25,14 @@ jobs:
     - name: Build slim
       run: |
         cd sidecar
-        docker build -f slim/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim" slim/
+        docker build -f slim/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim" .
         docker images
 
 
     - name: Build slim-is
       run: |
         pwd
-        docker build -f slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}" slim/is/
+        docker build -f slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}" .
         docker images
 
 #    - name: Build the Docker image test 1
