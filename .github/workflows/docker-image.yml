@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build_sidecar:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 6.25.0
+      TAG: xroad-security-server-sidecar
+      INSTANCE_COUNTRY: is
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image test 1
+      run: |
+        docker build -f sidecar/slim/${{ env.INSTANCE_COUNTRY }}/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/X-Road-Security-Server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}"
+        docker images
