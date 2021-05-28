@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build_sidecar:
+  build_sidecars:
     runs-on: ubuntu-latest
     env:
       VERSION: 6.25.0
@@ -16,8 +16,15 @@ jobs:
       INSTANCE_COUNTRY: is
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image test 1
+
+    - name: Build slim-is
       run: |
-        #docker build -f sidecar/slim/${{ env.INSTANCE_COUNTRY }}/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}"
-        ./sidecar/docker-build.sh 6.25.0 xroad-security-server-sidecar is
+        cd sidecar/slim/is/
+        docker build . --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}"
         docker images
+
+#    - name: Build the Docker image test 1
+#      run: |
+#        #docker build -f sidecar/slim/${{ env.INSTANCE_COUNTRY }}/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}"
+#        ./sidecar/docker-build.sh 6.25.0 ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar is
+#        docker images
