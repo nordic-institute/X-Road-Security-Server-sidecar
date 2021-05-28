@@ -20,14 +20,14 @@ jobs:
     - name: Build slim
       run: |
         cd sidecar
-        docker build -f ./slim/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim"
+        docker build -f slim/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim" slim/
         docker images
 
 
     - name: Build slim-is
       run: |
         pwd
-        docker build -f ./slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}"
+        docker build -f slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}" slim/is/
         docker images
 
 #    - name: Build the Docker image test 1
