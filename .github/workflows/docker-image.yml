@@ -26,12 +26,12 @@ jobs:
       run: |
         cd sidecar
         docker build -f slim/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim" .
-        docker images
+      
 
 
     - name: Build slim-is
       run: |
-        pwd
+        cd sidecar
         docker build -f slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}" .
         docker images
 
