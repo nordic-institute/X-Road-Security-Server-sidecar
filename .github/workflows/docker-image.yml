@@ -32,7 +32,7 @@ jobs:
     - name: Build slim-is
       run: |
         cd sidecar
-        docker build -f slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=${{ env.TAG }}" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}" .
+        docker build -f slim/is/Dockerfile --build-arg "VERSION=${{ env.VERSION }}" --build-arg "TAG=ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-slim" -t "ghcr.io/digitaliceland/x-road-security-server-sidecar/${{ env.TAG }}:${{ env.VERSION }}-slim-${{ env.INSTANCE_COUNTRY }}" .
         docker images
 
 #    - name: Build the Docker image test 1
