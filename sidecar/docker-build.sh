@@ -2,9 +2,7 @@
 set -euo pipefail
 
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >&/dev/null && pwd)"
-#dir="$(pwd)"
-# Default arguments
-version="${1:-6.25.0}"
+version="${1:-6.26.0}"
 tag="${2:-xroad-security-server-sidecar}"
 instance_country="${3:-fi}"
 
@@ -18,8 +16,10 @@ build() {
 # Vanilla instance - non country specific
 build "$dir/slim/Dockerfile" "-slim"
 build "$dir/Dockerfile" ""
-build "$dir/kubernetesBalancer/slim/primary/Dockerfile" "-primary-slim"
-build "$dir/kubernetesBalancer/slim/secondary/Dockerfile" "-secondary-slim"
+#build "$dir/fi/Dockerfile" "-fi"
+
+build "$dir/kubernetesBalancer/slim/primary/Dockerfile" "-slim-primary"
+build "$dir/kubernetesBalancer/slim/secondary/Dockerfile" "-slim-secondary"
 build "$dir/kubernetesBalancer/primary/Dockerfile" "-primary"
 build "$dir/kubernetesBalancer/secondary/Dockerfile" "-secondary"
 
