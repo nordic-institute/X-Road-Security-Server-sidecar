@@ -34,7 +34,4 @@ jobs:
         echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
         docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-secondary-is
         docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-primary-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-slim-secondary-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-slim-primary-is
         docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-slim-is
