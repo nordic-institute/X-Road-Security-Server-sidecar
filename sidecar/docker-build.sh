@@ -16,7 +16,7 @@ build() {
 # Vanilla instance - non country specific
 build "$dir/slim/Dockerfile" "-slim"
 build "$dir/Dockerfile" ""
-build "$dir/fi/Dockerfile" "-fi"
+#build "$dir/fi/Dockerfile" "-fi"
 
 build "$dir/kubernetesBalancer/slim/primary/Dockerfile" "-slim-primary"
 build "$dir/kubernetesBalancer/slim/secondary/Dockerfile" "-slim-secondary"

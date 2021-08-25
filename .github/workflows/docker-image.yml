@@ -16,7 +16,7 @@ jobs:
   build_sidecars:
     runs-on: ubuntu-latest
     env:
-      VERSION: 6.25.0
+      VERSION: 6.26.0
       TAG: xroad-security-server-sidecar
       INSTANCE_COUNTRY: is
       
@@ -26,15 +26,15 @@ jobs:
     - name: Build sidecar images with docker-build.sh
       run: |
         cd sidecar
-        ./docker-build.sh 6.25.0 ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar is
+        ./docker-build.sh 6.26.0 ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar is
         docker images
 
     - name: Push icelandic sidecar images to container registry
       run: |
         echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-secondary-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-primary-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-slim-secondary-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-slim-primary-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-is
-        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.25.0-slim-is
+        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-secondary-is
+        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-primary-is
+        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-slim-secondary-is
+        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-slim-primary-is
+        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-is
+        docker push ghcr.io/digitaliceland/x-road-security-server-sidecar/xroad-security-server-sidecar:6.26.0-slim-is
