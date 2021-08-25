@@ -1,4 +1,33 @@
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sidecar-config-claim
+spec:
+  storageClassName: manualprovider
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sidecar-config-provider
+  labels:
+    type: local
+spec:
+  storageClassName: manualprovider
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  awsElasticBlockStore:
+    fsType: "ext4"
+    volumeID: "{{EBS_VOLUME_ID}}"
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: security-server-sidecar
@@ -37,7 +66,7 @@ spec:
       volumes:
       - name: sidecar-config-volume
         persistentVolumeClaim:
-          claimName: "{{VOLUME_CLAIM}}"
+          claimName: "sidecar-config-claim"
       initContainers:
       - name: volume-hack
         image: busybox:latest
@@ -47,7 +76,7 @@ spec:
           mountPath: /etc/xroad
       containers:
       - name: security-server-sidecar
-        image: niis/xroad-security-server-sidecar:6.25.0
+        image: niis/xroad-security-server-sidecar:6.26.0
         imagePullPolicy: "Always"
         volumeMounts:
         - name: sidecar-config-volume
@@ -73,8 +102,8 @@ spec:
         - name: XROAD_DATABASE_NAME
           value: "{{XROAD_DATABASE_NAME}}"
         ports:
-        - containerPort: 80
-        - containerPort: 443
+        - containerPort: 8080
+        - containerPort: 8443
         - containerPort: 4000
         - containerPort: 5500
         - containerPort: 5577
