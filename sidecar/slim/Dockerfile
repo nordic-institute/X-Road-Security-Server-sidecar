@@ -1,5 +1,5 @@
 FROM ubuntu:focal
-ARG VERSION=6.26.0
+ARG VERSION=beta-7.0.0
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -qq update \
@@ -20,8 +20,10 @@ RUN apt-get -qq update \
   && apt-get -qq install postgresql postgresql-contrib \
   && apt-get -qq clean
 
-ARG DIST=focal-$VERSION
-ARG REPO=https://artifactory.niis.org/xroad-release-deb
+#ARG DIST=focal-$VERSION
+# use snapshot repo temporarily for beta 7.0 packages until 7.0 is released
+ARG DIST=focal-snapshot
+ARG REPO=https://artifactory.niis.org/xroad-snapshot-deb
 ARG REPO_KEY=https://artifactory.niis.org/api/gpg/key/public
 ARG COMPONENT=main
 ARG CERTS_PATH=/etc/xroad/ssl
@@ -71,11 +73,12 @@ RUN rm -f /etc/xroad/db.properties \
 # for initializing an empty config volume
   && mkdir -p /usr/share/xroad/config/etc/xroad /usr/share/xroad/config/backup \
   && cp -a /etc/xroad /usr/share/xroad/config/etc/ \
-  && rm -rf /usr/share/xroad/config/etc/xroad/signer/softtoken
+  && rm -rf /usr/share/xroad/config/etc/xroad/signer/softtoken \
 # move files that should not be overwritten during migration to another folder
 # (these are needed when initializing an empty config volume)
   && mv /usr/share/xroad/config/etc/xroad/conf.d/local.ini \
     /usr/share/xroad/config/etc/xroad/devices.ini \
+    /usr/share/xroad/config/etc/xroad/services/local.properties \
     /usr/share/xroad/config/backup/ \
 ##
   && dpkg-query --showformat='${Version}' --show xroad-proxy >/usr/share/xroad/config/VERSION \

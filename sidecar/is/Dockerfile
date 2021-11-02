@@ -7,4 +7,4 @@ ADD https://raw.githubusercontent.com/nordic-institute/X-Road/$VERSION/src/packa
 
 RUN chown xroad:xroad /etc/xroad/conf.d/override-securityserver-is.ini \
 && chmod 660 /etc/xroad/conf.d/override-securityserver-is.ini \
-&& cp -p /etc/xroad/conf.d/override-securityserver-is.ini /root/etc/xroad/conf.d/
+&& cp -p /etc/xroad/conf.d/override-securityserver-is.ini /usr/share/xroad/config/etc/xroad/conf.d/

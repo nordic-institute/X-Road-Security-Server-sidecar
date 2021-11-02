@@ -6,4 +6,4 @@ ARG VERSION
 ADD --chown=xroad:xroad https://raw.githubusercontent.com/nordic-institute/X-Road/$VERSION/src/packages/src/xroad/default-configuration/override-securityserver-is.ini /etc/xroad/conf.d/override-securityserver-is.ini
 
 RUN chmod 660 /etc/xroad/conf.d/override-securityserver-is.ini \
-  && cp -a /etc/xroad/conf.d/override-securityserver-is.ini /root/etc/xroad/conf.d/
+  && cp -a /etc/xroad/conf.d/override-securityserver-is.ini /usr/share/xroad/config/etc/xroad/conf.d/
