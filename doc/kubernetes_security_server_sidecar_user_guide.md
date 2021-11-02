@@ -157,16 +157,16 @@ The table below lists the required connections between different components.
 
 **Connection Type** | **Source** | **Target** | **Target Ports** | **Protocol** | **Note** |
 -----------|------------|-----------|-----------|-----------|-----------|
-Out | Security Server | Central Server | 80, 4001 | tcp | |
+Out | Security Server | Central Server | 8080, 4001 | tcp | |
 Out | Security Server | Management Security Server | 5500, 5577 | tcp | |
-Out | Security Server | OCSP Service | 80 / 443 | tcp | |
-Out | Security Server | Timestamping Service | 80 / 443 | tcp | |
+Out | Security Server | OCSP Service | 8080 / 8443 | tcp | |
+Out | Security Server | Timestamping Service | 8080 / 8443 | tcp | |
 Out | Security Server | Data Exchange Partner Security Server (Service Producer) | 5500, 5577 | tcp | |
-Out | Security Server | Producer Information System | 80, 443, 8080 | tcp | Target in the internal network |
+Out | Security Server | Producer Information System | 8080, 8443 | tcp | Target in the internal network |
 Out  | SSH synchronization | Security Server | 22 | tcp | |
 In  | Monitoring Security Server | Security Server | 5500, 5577 | tcp | |
 In  | Data Exchange Partner Security Server (Service Consumer) | Security Server | 5500, 5577 | tcp | |
-In | Consumer Information System | Security Server | 80, 443, 8080  | tcp | Source in the internal network |
+In | Consumer Information System | Security Server | 8080, 8443 | tcp | Source in the internal network |
 In | Admin | Security Server | &lt;ui port&gt; (**reference data 1.2**) | tcp | Source in the internal network |
 In  | Healthcheck | Security Server | 5588 | tcp | |
 In  | SSH synchronization | Security Server | 22 | tcp | |
@@ -247,7 +247,8 @@ spec:
     - name: XROAD_LOG_LEVEL
       value: "<xroad log level>"
     ports:
-    - containerPort: 443
+    - containerPort: 8080
+    - containerPort: 8443
     - containerPort: 4000
     - containerPort: 5500
     - containerPort: 5577
@@ -656,7 +657,7 @@ The liveness probes are used to know when to restart a container. The liveness p
 
 The liveness probes are useful when the pod is not in a live state and cannot be accessed through the UI, for example, due to the pod being caught in a deadlock or because one of the services running in the container has stopped.
 
-The parameters for the liveness probes are the same than for the readiness probes, but you have to use the port 80 to check if nginx is running and serving the application instead of using port 5588 to check if the Sidecar pod is ready to serve traffic. We recommended also increasing the failureThreshold value.
+The parameters for the liveness probes are the same than for the readiness probes, but you have to use the port 8080 to check if nginx is running and serving the application instead of using port 5588 to check if the Sidecar pod is ready to serve traffic. We recommended also increasing the failureThreshold value.
 
 ```yaml
 [...]
@@ -664,7 +665,7 @@ containers:
   livenessProbe:
     httpGet:
       path: /
-      port: 80
+      port: 8080
     initialDelaySeconds: 100
     periodSeconds: 10
     successThreshold: 1
@@ -686,7 +687,7 @@ containers:
   livenessProbe:
     httpGet:
       path: /
-      port: 80
+      port: 8080
     periodSeconds: 10
     successThreshold: 1
     failureThreshold: 50

@@ -117,8 +117,8 @@ Operational monitoring           | Yes         | No               |
 1.11   | &lt;database-name&gt;                     | (Optional) this parameter will change the name of the database 'serverconf' to 'serverconf_&lt;database-name&gt;', this is useful when we are using an external database host with an already existing database and we don't want to use it
 1.12   | TCP 5500                                  | Ports for outbound connections (from the Security Server to the external network)<br> Message exchange between Security Servers
 &nbsp; | TCP 5577                                  | Ports for outbound connections (from the Security Server to the external network)<br> Querying of OCSP responses between Security Servers
-&nbsp; | TCP 80                                    | Ports for outbound connections (from the Security Server to the external network)<br> Downloading global configuration
-&nbsp; | TCP 80, 443                               | Ports for outbound connections (from the Security Server to the external network)<br> Most common OCSP service
+&nbsp; | TCP 8080                                  | Ports for outbound connections (from the Security Server to the external network)<br> Downloading global configuration
+&nbsp; | TCP 8080, 8443                            | Ports for outbound connections (from the Security Server to the external network)<br> Most common OCSP service
 1.13   | TCP 8080                                  | Ports for information system access points (in the local network)<br> Connections from information systems
 &nbsp; | TCP 8443                                  | Ports for information system access points (in the local network)<br> Connections from information systems
 1.14   | TCP 5588                                  | Port for health check (local network)
@@ -152,7 +152,7 @@ Out | Security Server | Management Security Server | 5500, 5577 | tcp | |
 Out | Security Server | OCSP Service | 80 / 443 | tcp | |
 Out | Security Server | Timestamping Service | 80 / 443 | tcp | |
 Out | Security Server | Data Exchange Partner Security Server (Service Producer) | 5500, 5577 | tcp | |
-Out | Security Server | Producer Information System | 80, 443, other | tcp | Target in the internal network |
+Out | Security Server | Producer Information System | 8080, 8443, other | tcp | Target in the internal network |
 In  | Monitoring Security Server | Security Server | 5500, 5577 | tcp | |
 In  | Data Exchange Partner Security Server (Service Consumer) | Security Server | 5500, 5577 | tcp | |
 In | Consumer Information System | Security Server | 8080, 8443 | tcp | Source in the internal network |
@@ -198,7 +198,7 @@ The script `setup_security_server_sidecar.sh` will:
     * Enables health check port and interfaces (by default all available interfaces).
     * Backs up the read-only xroad packages' configuration to allow Security Server Sidecar configuration updates.
     * Copies the Security Server Sidecar custom configuration files.
-    * Exposes the container ports 80, 8080 (HTTP), 8443, 443 (HTTPS), 4000 (admin UI), 5500 (proxy), 5577 (proxy OCSP) and 5588 (proxy health check).
+    * Exposes the container ports 8080 (HTTP), 8443 (HTTPS), 4000 (admin UI), 5500 (proxy), 5577 (proxy OCSP) and 5588 (proxy health check).
 
 3. Start a new Security Server Sidecar container from the xroad-sidecar-security-server-image and execute the initial configuration script, which will perform the following configuration steps:
 
@@ -381,7 +381,7 @@ To check that the installation was successful, do the following:
     ```bash
     docker ps --filter "name=<container name>"
     CONTAINER ID        IMAGE                                                COMMAND                 CREATED             STATUS              PORTS                                                                                               NAMES
-    b3031affa4b7        niis/xroad-security-server-sidecar:<image tag>   "/root/entrypoint.sh"   10 minutes ago      Up 10 minutes       443/tcp, 5500/tcp, 5577/tcp, 0.0.0.0:5588->5588/tcp, 0.0.0.0:<http port>->8080/tcp, 0.0.0.0:4600->4000/tcp   <container name>
+    b3031affa4b7        niis/xroad-security-server-sidecar:<image tag>   "/root/entrypoint.sh"   10 minutes ago      Up 10 minutes       8443/tcp, 5500/tcp, 5577/tcp, 0.0.0.0:5588->5588/tcp, 0.0.0.0:<http port>->8080/tcp, 0.0.0.0:4600->4000/tcp   <container name>
     ```
 
 2. Ensure that the services are running (**reference data: 1.1**) by running a command in the running container:
