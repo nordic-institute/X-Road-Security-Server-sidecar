@@ -3,11 +3,10 @@ set -euo pipefail
 
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >&/dev/null && pwd)"
 version="${1:-7.0.0}"
-xroad_version="${2:-7.0.0}"
-tag="${3:-xroad-security-server-sidecar}"
-repo="${4-}"
-dist="${5-}"
-repo_key="${6-}"
+tag="${2:-xroad-security-server-sidecar}"
+repo="${3-}"
+dist="${4-}"
+repo_key="${5-}"
 
 build() {
   echo "BUILDING $tag:$version$2 using ${1#$dir/}"
@@ -23,7 +22,6 @@ build_variant() {
   echo "BUILDING variant $tag:$version$1-$2"
   docker build -f "$dir/Dockerfile-variant" \
     --build-arg "VERSION=$version" \
-    --build-arg "XROAD_VERSION=$xroad_version" \
     --build-arg "FROM=$tag:$version$1" \
     --build-arg "VARIANT=$2" \
     -t "$tag:$version$1-$2" "$dir"
