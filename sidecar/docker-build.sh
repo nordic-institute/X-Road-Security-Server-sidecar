@@ -21,7 +21,6 @@ build() {
 build_variant() {
   echo "BUILDING variant $tag:$version$1-$2"
   docker build -f "$dir/Dockerfile-variant" \
-    --no-cache \
     --build-arg "VERSION=$version" \
     --build-arg "FROM=$tag:$version$1" \
     --build-arg "VARIANT=$2" \
