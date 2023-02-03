@@ -7,10 +7,10 @@ tag="${2:-xroad-security-server-sidecar}"
 repo="${3-}"
 dist="${4-}"
 repo_key="${5-}"
-
+#just a comment
 build() {
   echo "BUILDING $tag:$version$2 using ${1#$dir/}"
-  local build_args=(--no-cache --build-arg "VERSION=$version" --build-arg "TAG=$tag")
+  local build_args=(--build-arg "VERSION=$version" --build-arg "TAG=$tag")
   [[ -n $repo ]] && build_args+=(--build-arg "REPO=$repo")
   [[ -n $repo_key ]] && build_args+=(--build-arg "REPO_KEY=$repo_key")
   [[ -n $dist ]] && build_args+=(--build-arg "DIST=$dist")
@@ -21,7 +21,6 @@ build() {
 build_variant() {
   echo "BUILDING variant $tag:$version$1-$2"
   docker build -f "$dir/Dockerfile-variant" \
-    --no-cache \
     --build-arg "VERSION=$version" \
     --build-arg "FROM=$tag:$version$1" \
     --build-arg "VARIANT=$2" \
