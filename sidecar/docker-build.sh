@@ -8,6 +8,8 @@ repo="${3-}"
 dist="${4-}"
 repo_key="${5-}"
 
+docker info
+
 build() {
   echo "BUILDING $tag:$version$2 using ${1#$dir/}"
   local build_args=(--no-cache --build-arg "VERSION=$version" --build-arg "TAG=$tag")
