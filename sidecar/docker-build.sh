@@ -7,7 +7,7 @@ tag="${2:-xroad-security-server-sidecar}"
 repo="${3-}"
 dist="${4-}"
 repo_key="${5-}"
-
+#just a comment
 build() {
   echo "BUILDING $tag:$version$2 using ${1#$dir/}"
   local build_args=(--build-arg "VERSION=$version" --build-arg "TAG=$tag")
