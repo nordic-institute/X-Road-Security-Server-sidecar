@@ -1,5 +1,9 @@
 # X-Road Security Server Sidecar
 
+**NB!** This repository has been archived and merged into the
+[X-Road core repository](https://github.com/nordic-institute/X-Road/tree/develop/sidecar). The documentation can also
+be found under the [X-Road core documentation](https://github.com/nordic-institute/X-Road/tree/develop/doc/Sidecar).
+
 [![Go to X-Road Community Slack](https://img.shields.io/badge/Go%20to%20Community%20Slack-grey.svg)](https://jointxroad.slack.com/)
 [![Get invited](https://img.shields.io/badge/No%20Slack-Get%20invited-green.svg)](https://x-road.global/community)
 
